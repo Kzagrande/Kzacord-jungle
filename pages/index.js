@@ -40,34 +40,17 @@ function Title(props) {
       <Tag>{props.children}</Tag>
       <style jsx>{`
       ${Tag}{
-        color: ${appConfig.theme.colors.neutrals['500']};
-        font-weight: 600;
+        color: ${appConfig.theme.colors.neutrals['100']};
+        font-weight: 700;
+        margin: 10px;
       }
     `}</style>
     </>
   );
 }
 
-
-
-//React Component
-/* function HomePage() {
-    //JSX
-  return(
-   <div>
-     <GlobalStyle/>  
-      <Title tag ="h1">Welcome to the jungle! </Title>
-
-  <p> Discord - Kza jungle</p>
-  
-  </div>
-  )
-}
-
-export default HomePage */
-
 export default function PaginaInicial() {
-  const username = 'peas';
+  const username = 'Kzagrande';
 
   return (
     <>
@@ -76,7 +59,7 @@ export default function PaginaInicial() {
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           backgroundColor: appConfig.theme.colors.primary[500],
-          backgroundImage: 'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
+          backgroundImage: 'url(https://initiate.alphacoders.com/images/607/cropped-1920-1080-607866.png?5002)',
           backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
         }}
       >
@@ -92,7 +75,7 @@ export default function PaginaInicial() {
             width: '100%', maxWidth: '700px',
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
-            backgroundColor: appConfig.theme.colors.neutrals[700],
+            backgroundColor: appConfig.theme.colors.neutrals[0],
           }}
         >
           {/* Formulário */}
@@ -100,11 +83,11 @@ export default function PaginaInicial() {
             as="form"
             styleSheet={{
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
+              width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px', 
             }}
           >
-            <Title tag="h1">Boas vindas de volta!</Title>
-            <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
+            <Title tag="h1">Bem vindo a Paradis!</Title>
+            <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[100] }}>
               {appConfig.name}
             </Text>
 
@@ -125,9 +108,9 @@ export default function PaginaInicial() {
               fullWidth
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[500],
+                mainColor: appConfig.theme.colors.primary[700],
                 mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[600],
+                mainColorStrong: appConfig.theme.colors.primary[500],
               }}
             />
           </Box>
@@ -142,10 +125,10 @@ export default function PaginaInicial() {
               alignItems: 'center',
               maxWidth: '200px',
               padding: '16px',
-              backgroundColor: appConfig.theme.colors.neutrals[800],
+              backgroundColor: appConfig.theme.colors.neutrals[0],
               border: '1px solid',
-              borderColor: appConfig.theme.colors.neutrals[999],
-              borderRadius: '10px',
+              borderColor: appConfig.theme.colors.neutrals[650],
+              borderRadius: '20px',
               flex: 1,
               minHeight: '240px',
             }}
@@ -175,3 +158,23 @@ export default function PaginaInicial() {
     </>
   );
 }
+
+
+
+
+
+//React Component
+/* function HomePage() {
+    //JSX
+  return(
+   <div>
+     <GlobalStyle/>  
+      <Title tag ="h1">Welcome to the jungle! </Title>
+
+  <p> Discord - Kza jungle</p>
+  
+  </div>
+  )
+}
+
+export default HomePage */

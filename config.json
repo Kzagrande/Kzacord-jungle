@@ -1,5 +1,5 @@
 {
-  "name": "Aluracord - Matrix (peas)",
+  "name": "Kzacord - O Eren nunca errou",
   "theme": {
     "colors": {
       "primary": {
@@ -8,13 +8,14 @@
         "200": "#A3D9A5",
         "300": "#7BC47F",
         "400": "#57AE5B",
-        "500": "#3F9142",
+        "500": "#adb4bb",
         "600": "#2F8132",
-        "700": "#207227",
+        "700": "#7c3027",  
         "800": "#0E5814",
         "900": "#05400A"
       },
       "neutrals": {
+        "0" : "transparent",
         "000": "#FFFFFF",
         "050": "#F5F7FA",
         "100": "#E4E7EB",

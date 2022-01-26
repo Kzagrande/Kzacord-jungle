@@ -43,7 +43,7 @@ export default function PaginaInicial() {
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           backgroundColor: appConfig.theme.colors.primary[500],
-          backgroundImage: 'url(https://initiate.alphacoders.com/images/607/cropped-1920-1080-607866.png?5002)',
+          backgroundImage: 'url(https://images4.alphacoders.com/607/thumb-1920-607866.png)',
           backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
         }}
       >

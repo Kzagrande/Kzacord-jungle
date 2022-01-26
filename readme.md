@@ -3,7 +3,8 @@
  # Vou Atualizando esse projeto de acordo com meus estudos e um maior conhecimento na Lib.
 
 
-	Aula 1 : https://user-images.githubusercontent.com/91704291/151054446-bb0a0ed1-800a-4001-a98a-24a517cb5171.png
+	Aula 1e 2 : ![Kzacord](https://user-images.githubusercontent.com/91704291/151223312-4c5eccc6-49d2-4abc-903a-824245c4f590.png)
+
 	
 	
-	Aula 2: https://user-images.githubusercontent.com/91704291/151057390-bcb0e689-6fac-4fdb-b1ff-66d03a1c82e3.mp4
+	Aula 3: ![chat](https://user-images.githubusercontent.com/91704291/151223392-8c88ed86-dba5-4a81-aaf8-848198319336.png)

@@ -1,53 +1,58 @@
+import { Backdrop, CircularProgress } from '@mui/material';
 import { Box, Text, TextField, Image, Button } from "@skynexui/components";
 import React, { useState } from "react";
 import appConfig from "../config.json";
 import { createClient } from '@supabase/supabase-js'
-import {useRouter} from 'next/router';
-import{ButtonSendSticker} from '../src/components/ButtonSendSticker';
+import { useRouter } from 'next/router';
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker';
 
 // como fazer AJAX
-const SUPABASE_ANON_KEY =  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM3NTY4OSwiZXhwIjoxOTU4OTUxNjg5fQ.jnIYU64gGYX8Xy1rgYN3bwzTgFD4wVFJEOYBcruHYsg';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM3NTY4OSwiZXhwIjoxOTU4OTUxNjg5fQ.jnIYU64gGYX8Xy1rgYN3bwzTgFD4wVFJEOYBcruHYsg';
 const SUPABASE_URL = 'https://wkqkptgpujffjxvnweyq.supabase.co';
 const supabaseCliente = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-
-
-export default function ChatPage() {
-    const roteamento =  useRouter();
-    const logUser = roteamento.query.username;
-    const [message, setMessage] = useState("");
-    const [messageList, setMessageList] = useState([]);
-
-    function listenMessagensInRealTime(adicionaMensagem){
-        return supabaseCliente
+function listenMessagensInRealTime(adicionaMensagem) {
+    return supabaseCliente
         .from('messages')
-        .on('INSERT',(response)=>{
+        .on('INSERT', (response) => {
             adicionaMensagem(response.new);
         })
         .subscribe();
-    }
-    
-    React.useEffect(()=>{
-    supabaseCliente
-    .from('messages')
-    .select('*')
-    .order('id', {ascending:false})
-    .then((dados)=>{
-        /* console.log('dados da consulta', dados.data); */
-        setMessageList(dados.data);
-     
-    });
-    listenMessagensInRealTime((newMessage)=>{
-        setMessageList((valorAtualDaLista)=>{
-                return[
-                newMessage,
-                ...valorAtualDaLista,
-            ]
-        });
-       
+}
 
-    });
-},[]);
+
+export default function ChatPage() {
+    const roteamento = useRouter();
+    const logUser = roteamento.query.username;
+    const [message, setMessage] = useState("");
+    const [messageList, setMessageList] = useState([]);
+    const [backdrop, setBackdrop] = useState(true);
+   
+
+
+
+    React.useEffect(() => {
+        supabaseCliente
+            .from('messages')
+            .select('*')
+            .order('id', { ascending: false })
+            .then((dados) => {
+                /* console.log('dados da consulta', dados.data); */
+                setMessageList(dados.data);
+                setBackdrop(false);
+
+            });
+        listenMessagensInRealTime((newMessage) => {
+            setMessageList((valorAtualDaLista) => {
+                return [
+                    newMessage,
+                    ...valorAtualDaLista,
+                ]
+            });
+
+
+        });
+    }, []);
     //Usuário
     /**
      * Usuário digita no campo textarea
@@ -63,24 +68,27 @@ export default function ChatPage() {
      */
 
     function handleNewMessage(newMessage) {
+
+
         const message = {
             /* id: messageList.length + 1, */
             from: logUser,
             body: newMessage,
         };
 
-        supabaseCliente
-        .from('messages')
-        .insert([
-            message
-        ])
-        
-        .then((Answer)=>{
-            console.log('Criando mensagem',Answer.data);
 
-        setMessage("");
-        
-        });
+        supabaseCliente
+            .from('messages')
+            .insert([
+                message
+            ])
+
+            .then(({data}) => {
+
+
+                setMessage("");
+
+            });
     }
 
 
@@ -129,7 +137,7 @@ export default function ChatPage() {
                         border: '1px solid black',
                     }}
                 >
-                    <MessageList messages={messageList} />
+                    <MessageList messages={messageList} setMessage={setMessageList} setBackdrop={setBackdrop} />
 
                     <Box
                         as="form"
@@ -160,6 +168,14 @@ export default function ChatPage() {
                                 color: appConfig.theme.colors.neutrals[200],
                             }}
                         />
+
+                        <ButtonSendSticker
+                            onStickerClick={(sticker) => {
+                                /* console.log("Salva esse sticker no banco", sticker); */
+                                handleNewMessage(':sticker:' + sticker);
+                            }}
+                        />
+
                         <Button
                             type="submit"
                             label="Enviar"
@@ -170,7 +186,7 @@ export default function ChatPage() {
                             styleSheet={{
                                 width: "20%",
                                 height: "80%",
-                                marginRight: "12px",
+                                margin: "12px",
                             }}
                             buttonColors={{
                                 contrastColor: appConfig.theme.colors.neutrals["000"],
@@ -179,13 +195,17 @@ export default function ChatPage() {
                                 mainColorStrong: appConfig.theme.colors.primary[500],
                             }}
                         />
-                            {/* CallBack */}
-                        <ButtonSendSticker
-                            onStickerClick={(sticker)=>{
-                                /* console.log("Salva esse sticker no banco", sticker); */
-                                handleNewMessage(':sticker:'+ sticker);
-                            }}
-                        />
+                        {/* CallBack */}
+                        <Backdrop
+                            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                            open={backdrop}
+                        >
+                            <CircularProgress color='inherit' />
+                        </Backdrop>
+
+
+
+
                     </Box>
                 </Box>
             </Box>
@@ -203,21 +223,21 @@ function Header() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    
+
                 }}
             >
-                <Text 
-                styleSheet={{
-                    fontSize: "30px",
-                }}
-                variant="heading5">Chat</Text>
+                <Text
+                    styleSheet={{
+                        fontSize: "30px",
+                    }}
+                    variant="heading5">Chat</Text>
                 <Button
-                styleSheet={{
-                    backgroundColor:"darkgreen",
-                    color:"#fff",
-                    width:"100px",
-                    
-                }}
+                    styleSheet={{
+                        backgroundColor: "darkgreen",
+                        color: "#fff",
+                        width: "100px",
+
+                    }}
                     variant="tertiary"
                     colorVariant="neutral"
                     label="Logout"
@@ -225,24 +245,43 @@ function Header() {
                 />
             </Box>
         </>
-    );
+    )
 }
 
 function MessageList(props) {
+    var { messages, setMessage, setBackdrop } = props;
+
+    function handleApagaMensagem(id) {
+
+        setBackdrop(true);
+
+        supabaseCliente
+            .from('messages')
+            .delete()
+            .match({ id: id })
+            .then(() => {
+                var newMsgs = messages.filter((msg) => msg.id != id);
+                setMessage(newMsgs);
+
+                setBackdrop(false);
+            });
+    }
+
     return (
         <Box
             tag="ul"
             styleSheet={{
-                overflow: "auto",
-                display: "flex",
-                flexDirection: "column-reverse",
+                overflow: 'auto',
+                display: 'flex',
+                flexDirection: 'column-reverse',
                 flex: 1,
                 color: appConfig.theme.colors.neutrals["000"],
-                marginBottom: "16px",
+                marginBottom: '16px',
             }}
         >
             {props.messages.map((message) => {
                 return (
+                    
                     <Text
                         key={message.id}
                         tag="li"
@@ -260,16 +299,28 @@ function MessageList(props) {
                                 marginBottom: "8px",
                             }}
                         >
+                            <a href={`https://github.com/${message.from}`}>
                             <Image
+                                
                                 styleSheet={{
                                     width: "20px",
                                     height: "20px",
                                     borderRadius: "50%",
                                     display: "inline-block",
                                     marginRight: "8px",
-                                }}
+                                    transition: "1s ",
+                                    hover: {
+                                        marginLeft: "50px",
+                                        transform: "scale(6)",
+                                        cursor: "pointer",
+
+                                    }
+                                }
+
+                                }
                                 src={`https://github.com/${message.from}.png`}
-                            />
+                                /></a> 
+                                
                             <Text tag="strong">{message.from}</Text>
                             <Text
                                 styleSheet={{
@@ -281,23 +332,42 @@ function MessageList(props) {
                             >
                                 {new Date().toLocaleDateString()}
                             </Text>
+                            <Button
+                                label='&#x2718;'
+                                onClick={() => handleApagaMensagem(message.id)}
+                                styleSheet={{
+                                    display: 'flex',
+                                    flexDirection: 'colum',
+                                    marginLeft: '96%',
+                                    width: '40px',
+                                    height: '10px',
+                                    backgroundColor: 'darkgreen',
+                                    color: 'white',
+                                }} />
                         </Box>
                         {/* Declarativo */}
                         {message.body.startsWith(':sticker:')
 
-                        ?(
-                            <Image src={message.body.replace(':sticker:','')} />
-                        )
-                        :(
-                            message.body
-                        )}
-                        
+                            ? (
+                                <Image src={message.body.replace(':sticker:', '')} />
+                            )
+                            : (
+                                message.body
+                            )}
+
+
 
                     </Text>
                 );
+
             })}
+
         </Box>
+
     );
+
+
+
 }
 
 

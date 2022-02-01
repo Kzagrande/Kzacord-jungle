@@ -18,5 +18,4 @@
 
 
 	Aula 5 e projeto finalizado 😅: 
-https://user-images.githubusercontent.com/91704291/152031745-3eb70d6d-f2ac-4924-bc8f-ece9deea8df9.mp4
-
+https://user-images.githubusercontent.com/91704291/152034571-b8668433-5eb5-42e5-85d6-5b88abd295ec.mp4
